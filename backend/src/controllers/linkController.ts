@@ -62,9 +62,14 @@ export const appendParameters = async (req: AppendParametersRequest, res: Respon
  * @returns A promise that resolves to nothing (void).
  */
 export const getLinks = async (req: Request, res: Response): Promise<void> => {
-  const page = parseInt(req.query.page as string, 10) ?? 1;
-  const limit = parseInt(req.query.limit as string, 10) ?? 10;
-  const cacheKey = `links:${page}:${limit}`;
+  const page = parseInt(req.query.page as string, 10);
+  const limit = parseInt(req.query.limit as string, 10);
+
+  const validPage = isNaN(page) ? 1 : page;
+  const validLimit = isNaN(limit) ? 10 : limit;
+
+  
+  const cacheKey = `links:${validPage}:${validLimit}`;
   try {
     // Attempt to get data from Redis
     const cachedData: string | null = await redisClient.get(cacheKey);
@@ -75,7 +80,7 @@ export const getLinks = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Fetch data from the primary database
-    const result: { links: IUrl[], totalPages: number } | null = await UrlService.getLinks(page, limit);
+    const result: { links: IUrl[], totalPages: number } | null = await UrlService.getLinks(validPage, validLimit);
 
     if (!result || result.links.length === 0) {
       res.status(404).json({ error: ERROR_MESSAGES.NO_LINKS_FOUND });
