@@ -43,6 +43,8 @@ This project is a web application that allows users to append custom parameters 
    ```
 
 3. Create a `.env` file in the root directory and add your MongoDB and Redis configurations:
+   (Though env file is added with git commit: )
+
    ```plaintext
    MONGODB_URI=<your_mongodb_connection_string>
    REDIS_HOST=<your_redis_host>
