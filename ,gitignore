@@ -1,0 +1,21 @@
+# Node modules
+**/node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment variables
+ .env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build output
+**/dist/
+**/build/
+
+# Temporary files
+.DS_Store
+Thumbs.db
